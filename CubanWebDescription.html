@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
     <meta content="Computing Foundations: Data, Fall 2019" name="description">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>CSCI 0160 Web Description</title>
+    <title>CSCI 1600 Web Description</title>
     <!-- CSS and Fonts -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="main.css">
@@ -13,156 +13,157 @@
 </head>
 
 <body>
-    <!-- Header -->
-    <div id="header-wrapper">
-      <p> Welcome to our Web Description! </p>
-    </div>
-    <!--Footer-->
-    <div id="body-wrapper">
+  <!-- Header -->
+  <div id="header">
+    <p> Welcome to our Web Description! </p>
+  </div>
+
+  <!-- Body -->
+  <div id="body_wrapper">
+    <div class="body_section">
       <h1>Overview</h1>
-      <img src="inspo.jpg" width = '400px' height= '400px'
-      alt="whole"> </img>
-      <p> Figure 1: Represents the entire necklace </p>
+      <div class="image_container">
+        <img src="inspo.jpg" width = '400px' height= '400px'
+        alt="whole"> </img>
+        <p> Figure 1: Represents the entire necklace </p>
+      </div>
 
-<p>
-The Weather Based Cuban Link is a jewelry chain that can light up different
-colors based on the current weather. <br>
-The link will pull weather data from an accompanying app, and throughout the
-day individual pixels/lights will light up, eventually forming a full display
-of the day at midnight and noon. <br>
+      <p>
+      The Weather Based Cuban Link is a jewelry chain that can light up different
+      colors based on the current weather. <br>
+      The link will pull weather data from an accompanying app, and throughout the
+      day individual pixels/lights will light up, eventually forming a full display
+      of the day at midnight and noon. <br>
 
-The chain will be able to support multiple modes that can be changed through
-the app. <br>
-Currently the planned modes include weather clock, customized color setting,
-and a real time color update based on the weather. <br>
-The weather clock mode mode
-is a mode that will incrementally light up chains on the link as the day
-progresses, and at midnight the chain will shine brightest with all of the
-colors recorded throughout the day on a respective link. <br>
-The custom color mode will be a color picker wheel that users can manipulate
-to make their chain shine in whatever color they choose. <br>
-The lights will be able to be made brighter and dimmer through the color
-picker as well. <br>
-The real time weather mode will work much like a mood ring that reacts to the
-weather. <br>
-Depending on the current weather, the chain will flow through colors that
- represent the current climate in the area. <br>
+      The chain will be able to support multiple modes that can be changed through
+      the app. <br>
+      Currently the planned modes include weather clock, customized color setting,
+      and a real time color update based on the weather. <br>
+      The weather clock mode mode
+      is a mode that will incrementally light up chains on the link as the day
+      progresses, and at midnight the chain will shine brightest with all of the
+      colors recorded throughout the day on a respective link. <br>
+      The custom color mode will be a color picker wheel that users can manipulate
+      to make their chain shine in whatever color they choose. <br>
+      The lights will be able to be made brighter and dimmer through the color
+      picker as well. <br>
+      The real time weather mode will work much like a mood ring that reacts to the
+      weather. <br>
+      Depending on the current weather, the chain will flow through colors that
+       represent the current climate in the area. <br>
 
-Please refer to our project proposal for all of the materials and their expected costs.
-</p>
-<h1>Hardware: </h1>
-<h2>
-Arduino</h2>
-<p>
-The largest piece of hardware that will be introduced into our chain is
-the Arduino Nano 33 BLE Sense. <br>
-This arduino has capabilities that include a
-9 axis Inertial Measurement Unit, temperature, pressure, humidity, light, color
-and even gestures sensors, and a microphone. <br> Using these sensors, we would
-program the device to be able to support modes such as real real time weather
-mode and collect data that is relevant to the user.
-<br>
-Because the device is bluetooth connected, this is the mode of
-communication that we would use to connect to the device via phone/app.
-<br>
-</p>
+      Please refer to our project proposal for all of the materials and their expected costs.
+      </p>
+    </div>
 
-<h2>Neopixel Jewels</h2>
-<p>
-Neopixel jewels will be the main electronic light that will be used throughout
-the project. <br>
-Each link on the chain will contain a neopixel jewel, and will be
-run in series starting from the arduino at the back of the chain. <br>
-The arduino
-will power the lights when on, and will also be the medium for passing rgb
-values to the lights.
-<br>
-</p>
+    <div class="body_section">
+      <h1>Hardware: </h1>
+      <h2>
+      Arduino</h2>
+      <p>
+      The largest piece of hardware that will be introduced into our chain is
+      the Arduino Nano 33 BLE Sense. <br>
+      This arduino has capabilities that include a
+      9 axis Inertial Measurement Unit, temperature, pressure, humidity, light, color
+      and even gestures sensors, and a microphone. <br> Using these sensors, we would
+      program the device to be able to support modes such as real real time weather
+      mode and collect data that is relevant to the user.
+      <br>
+      Because the device is bluetooth connected, this is the mode of
+      communication that we would use to connect to the device via phone/app.
+      <br>
+      </p>
 
-<h1>Software: </h1>
-<p>
-Our software will also be a large component of the project. <br>
-The app itself will be the hub that controls what mode the chain is in,
-as well as responding with the status of the chain such as battery, weather,
-and current light colors. <br>
-The app will be crucial for connecting over bluetooth,
- which is a main feature that must be implemented.<br>
-The app will contain different screens for the user to interact with.<br>
-Currently, the planned screens include a home screen, a chain status screen,
-a color picker screen, and a mode select screen. <br>
-Here is an example of what we
-envision a screen on the app would look like:
-<br>
-</>
-<div>
-<h1>Diagram </h1>
-<img src="smart_necklace.jpg" width = '400px' height= '400px'
-alt="whole"> </img></div>
-<p> Figure 2: Represents the entire necklace </p>
-<br>
-<br>
-<img src="Chain.jpg" width = '400px' height= '400px'
-alt="piece"> </img>
-<p> Figure 3: Represents an individual piece of the chain </p>
-<br>
-<h1> Timeline </h1>
-<div class="timeline">
-  <div class="container left">
-    <div class="content">
-      <h2>September 30th 2019</h2>
-      <p>Ordered Supplies</p>
+      <h2>Neopixel Jewels</h2>
+      <p>
+      Neopixel jewels will be the main electronic light that will be used throughout
+      the project. <br>
+      Each link on the chain will contain a neopixel jewel, and will be
+      run in series starting from the arduino at the back of the chain. <br>
+      The arduino
+      will power the lights when on, and will also be the medium for passing rgb
+      values to the lights.
+      <br>
+      </p>
     </div>
-  </div>
-  <div class="container right">
-    <div class="content">
-      <h2>October 1st 2019</h2>
-      <p>Created first protoype of neclace</p>
+
+    <div class="body_section">
+      <h1>Software: </h1>
+      <p>
+      Our software will also be a large component of the project. <br>
+      The app itself will be the hub that controls what mode the chain is in,
+      as well as responding with the status of the chain such as battery, weather,
+      and current light colors. <br>
+      The app will be crucial for connecting over bluetooth,
+       which is a main feature that must be implemented.<br>
+      The app will contain different screens for the user to interact with.<br>
+      Currently, the planned screens include a home screen, a chain status screen,
+      a color picker screen, and a mode select screen. <br>
+      Here is an example of what we
+      envision a screen on the app would look like:
+      </p>
     </div>
-  </div>
-  <div class="container left">
-    <div class="content">
-      <h2>October 8st 2019</h2>
-      <p>Design first protoype</p>
+
+    <div class="body_section">
+      <h1>Diagram </h1>
+      <div class="image_container">
+        <img src="smart_necklace.jpg" width = '400px' height= '400px'
+        alt="whole"> </img>
+        <p> Figure 2: Represents the entire necklace </p>
+      </div>
+      <div class="image_container">
+        <img src="Chain.jpg" width = '400px' height= '400px'
+        alt="piece"> </img>
+        <p> Figure 3: Represents an individual piece of the chain </p>
+      </div>
     </div>
-  </div>
-  <div class="container right">
-    <div class="content">
-      <h2>October 24st 2019</h2>
-      <p>Begin Hardware and structuring</p>
+
+    <div class="body_section">
+      <h1> Timeline </h1>
+      <div class="timeline">
+        <div class="timeline_item"> 
+          <h2>September 30th 2019</h2>
+          <p>Ordered Supplies</p>
+        </div>
+        <div class="timeline_item">
+          <h2>October 1st 2019</h2>
+          <p>Created first protoype of neclace</p>
+        </div>
+        <div class="timeline_item">
+          <h2>October 8st 2019</h2>
+          <p>Design first protoype</p>
+        </div>
+        <div class="timeline_item">
+          <h2>October 24st 2019</h2>
+          <p>Begin Hardware and structuring</p>
+        </div>
+        <div class="timeline_item">
+          <h2>November 18th 2019</h2>
+          <p>Finish hardware setup</p>
+        </div>
+        <div class="timeline_item">
+          <h2>December 3rd 2019</h2>
+          <p>Finish software</p>
+        </div>
+        <div class="timeline_item">
+          <h2>December 10th 2019</h2>
+          <p>Finish iOS App</p>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="container left">
-    <div class="content">
-      <h2>November 18th 2019</h2>
-      <p>Finish hardware setup</p>
+
+    <div class="body_section">
+      <h1> Progress Log </h1>
+      <div class="image_container">
+        <img src="proto.jpg" width = '400px' height= '400px'
+        alt="proto"> </img>
+      </div>
+      <div class="image_container">
+        <img src="proto2.jpg" width = '400px' height= '400px'
+        alt="proto2"> </img>
+      </div>
     </div>
-  </div>
-  <div class="container right">
-    <div class="content">
-      <h2>December 3rd 2019</h2>
-      <p>Finish software</p>
-    </div>
-  </div>
-  <div class="container left">
-    <div class="content">
-      <h2>December 10th 2019</h2>
-      <p>Finish iOS App</p>
-    </div>
-  </div>
-</div>
-<h1> Progress Log </h1>
-<img src="proto.jpg" width = '400px' height= '400px'
-alt="proto"> </img>
-<br>
-<img src="proto2.jpg" width = '400px' height= '400px'
-alt="proto2"> </img>
-<br>
-    </div>
-    <div id="footer-wrapper"><div id="footer">
-    <p>2019 CSCI 0111 Staff | Brown University Computer Science Department</p>
-</div></div><!-- Scripts -->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="assets/js/reuseable.js"></script>
-    <script type="text/javascript" src="assets/js/json_render.js"></script>
+
+  </div> <!-- closing the body_wrapper -->
+
 </body>
