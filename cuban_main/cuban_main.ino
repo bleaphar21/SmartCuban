@@ -124,13 +124,11 @@ ColorVector calcColorBasedOnTemp(float currentTemp) {
   calc.populateWeatherColors(currentTemp, red, green, blue);
 
   return ColorVector(red, green, blue, 255);
-
-  
 }
 
 /**
- * currentWeatherColor will handle constantly updating the lights of the chain based on the weaither.
- * 
+ * currentWeatherColor will handle constantly updating the lights of the chain based on the weather.
+ * read from the sensors.
  */
 void currentWeatherColor() {
   float currentTemp = getTemperature();
@@ -139,7 +137,6 @@ void currentWeatherColor() {
   for (int i = 0; i < pixels; i++) {
     setColorForPixel(i, newColor);
   }
-  
 }
 
 
