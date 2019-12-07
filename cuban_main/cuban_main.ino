@@ -24,6 +24,7 @@
  * 
  */
 #include "color_vector.h"
+#include "color_calculator.h"
 #include <Arduino_HTS221.h>
 #include <Arduino_APDS9960.h>
 #include <Adafruit_NeoPixel.h>
@@ -33,6 +34,9 @@ int pixels = 9;
 
 // inputs: number of pixels, pin number out, color ordering
 Adafruit_NeoPixel strip(pixels, 11, NEO_GRB); //  + NEO_KHZ800
+
+// color calc obj
+ColorCalculator calc = ColorCalculator();
 
 // the setup function runs once when you press reset or power the board
 void setup() {
@@ -113,6 +117,14 @@ void setColorForPixel(int pixel, ColorVector c) {
 }
 
 ColorVector calcColorBasedOnTemp(float currentTemp) {
+  int red;
+  int green;
+  int blue;
+
+  calc.populateWeatherColors(currentTemp, red, green, blue);
+
+  return ColorVector(red, green, blue, 255);
+
   
 }
 
@@ -125,7 +137,7 @@ void currentWeatherColor() {
   ColorVector newColor = calcColorBasedOnTemp(currentTemp);
 
   for (int i = 0; i < pixels; i++) {
-    
+    setColorForPixel(i, newColor);
   }
   
 }
