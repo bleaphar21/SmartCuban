@@ -32,6 +32,15 @@
 // Number of pixels that we have.
 int pixels = 9;
 
+enum MODE {
+  color_clock,
+  manual,
+  real_time
+};
+
+MODE currentMode = real_time;
+
+
 // inputs: number of pixels, pin number out, color ordering
 Adafruit_NeoPixel strip(pixels, 11, NEO_GRB); //  + NEO_KHZ800
 
@@ -55,6 +64,15 @@ void setup() {
 
 // the loop function runs over and over again forever
 void loop() {
+
+  // pull data from app.
+  pullData();
+
+  // Operate based on the mode
+  operateMode();
+
+  // push data if needed
+  postData();
   
 }
 
@@ -139,14 +157,29 @@ void currentWeatherColor() {
   }
 }
 
+void operateMode() {
+  switch(currentMode) {
+    case color_clock:
+    // statements
+    break;
+  case manual:
+    // statements
+    break;
+  case real_time:
+    currentWeatherColor();
+    break;
+  default:
+    currentWeatherColor();
+    break;
+  }
+}
+
 
 /**
  * This function will pull data back from the App.
  * I don't know how this will work lol.
  */
-void pullData() {
-  
-}
+void pullData() {}
 
 /**
  * A function that will handle posting all relevant data needed for the IOS application.
