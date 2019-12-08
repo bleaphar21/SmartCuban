@@ -9,7 +9,8 @@
  *    - Libraries
  *      - HTS221 (Temp and Humidity)
  *      - APDS9960 (Gestures)
- *      -Adafruit NeoPixels
+ *      - Adafruit NeoPixels
+ *      - ArduinoBLE
  *      
  *      
  *      Shit that needs to get done:
@@ -25,6 +26,7 @@
  */
 #include "color_vector.h"
 #include "color_calculator.h"
+#include <ArduinoBLE.h>
 #include <Arduino_HTS221.h>
 #include <Arduino_APDS9960.h>
 #include <Adafruit_NeoPixel.h>
