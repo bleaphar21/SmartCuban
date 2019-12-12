@@ -1,0 +1,601 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E31698F123A195A2005FB38F /* BTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31698F023A195A2005FB38F /* BTService.swift */; };
+		E31698F323A19689005FB38F /* BTDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31698F223A19689005FB38F /* BTDiscovery.swift */; };
+		E3A0369A23A1034200DFFD70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A0369923A1034200DFFD70 /* AppDelegate.swift */; };
+		E3A0369C23A1034200DFFD70 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A0369B23A1034200DFFD70 /* ViewController.swift */; };
+		E3A0369F23A1034200DFFD70 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3A0369D23A1034200DFFD70 /* Main.storyboard */; };
+		E3A036A123A1034400DFFD70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3A036A023A1034400DFFD70 /* Assets.xcassets */; };
+		E3A036A423A1034400DFFD70 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3A036A223A1034400DFFD70 /* LaunchScreen.storyboard */; };
+		E3A036AF23A1034400DFFD70 /* SmartControlV2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A036AE23A1034400DFFD70 /* SmartControlV2Tests.swift */; };
+		E3A036BA23A1034400DFFD70 /* SmartControlV2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A036B923A1034400DFFD70 /* SmartControlV2UITests.swift */; };
+		E3A036CA23A1070200DFFD70 /* RGBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A036C923A1070200DFFD70 /* RGBViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E3A036AB23A1034400DFFD70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E3A0368E23A1034200DFFD70 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E3A0369523A1034200DFFD70;
+			remoteInfo = SmartControlV2;
+		};
+		E3A036B623A1034400DFFD70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E3A0368E23A1034200DFFD70 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E3A0369523A1034200DFFD70;
+			remoteInfo = SmartControlV2;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E31698F023A195A2005FB38F /* BTService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTService.swift; sourceTree = "<group>"; };
+		E31698F223A19689005FB38F /* BTDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTDiscovery.swift; sourceTree = "<group>"; };
+		E3A0369623A1034200DFFD70 /* SmartControlV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartControlV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3A0369923A1034200DFFD70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E3A0369B23A1034200DFFD70 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E3A0369E23A1034200DFFD70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E3A036A023A1034400DFFD70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E3A036A323A1034400DFFD70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E3A036A523A1034400DFFD70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E3A036AA23A1034400DFFD70 /* SmartControlV2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartControlV2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3A036AE23A1034400DFFD70 /* SmartControlV2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartControlV2Tests.swift; sourceTree = "<group>"; };
+		E3A036B023A1034400DFFD70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E3A036B523A1034400DFFD70 /* SmartControlV2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartControlV2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3A036B923A1034400DFFD70 /* SmartControlV2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartControlV2UITests.swift; sourceTree = "<group>"; };
+		E3A036BB23A1034400DFFD70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E3A036C923A1070200DFFD70 /* RGBViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E3A0369323A1034200DFFD70 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3A036A723A1034400DFFD70 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3A036B223A1034400DFFD70 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E3A0368D23A1034200DFFD70 = {
+			isa = PBXGroup;
+			children = (
+				E3A0369823A1034200DFFD70 /* SmartControlV2 */,
+				E3A036AD23A1034400DFFD70 /* SmartControlV2Tests */,
+				E3A036B823A1034400DFFD70 /* SmartControlV2UITests */,
+				E3A0369723A1034200DFFD70 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E3A0369723A1034200DFFD70 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E3A0369623A1034200DFFD70 /* SmartControlV2.app */,
+				E3A036AA23A1034400DFFD70 /* SmartControlV2Tests.xctest */,
+				E3A036B523A1034400DFFD70 /* SmartControlV2UITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E3A0369823A1034200DFFD70 /* SmartControlV2 */ = {
+			isa = PBXGroup;
+			children = (
+				E31698F223A19689005FB38F /* BTDiscovery.swift */,
+				E31698F023A195A2005FB38F /* BTService.swift */,
+				E3A0369923A1034200DFFD70 /* AppDelegate.swift */,
+				E3A0369B23A1034200DFFD70 /* ViewController.swift */,
+				E3A0369D23A1034200DFFD70 /* Main.storyboard */,
+				E3A036C923A1070200DFFD70 /* RGBViewController.swift */,
+				E3A036A023A1034400DFFD70 /* Assets.xcassets */,
+				E3A036A223A1034400DFFD70 /* LaunchScreen.storyboard */,
+				E3A036A523A1034400DFFD70 /* Info.plist */,
+			);
+			path = SmartControlV2;
+			sourceTree = "<group>";
+		};
+		E3A036AD23A1034400DFFD70 /* SmartControlV2Tests */ = {
+			isa = PBXGroup;
+			children = (
+				E3A036AE23A1034400DFFD70 /* SmartControlV2Tests.swift */,
+				E3A036B023A1034400DFFD70 /* Info.plist */,
+			);
+			path = SmartControlV2Tests;
+			sourceTree = "<group>";
+		};
+		E3A036B823A1034400DFFD70 /* SmartControlV2UITests */ = {
+			isa = PBXGroup;
+			children = (
+				E3A036B923A1034400DFFD70 /* SmartControlV2UITests.swift */,
+				E3A036BB23A1034400DFFD70 /* Info.plist */,
+			);
+			path = SmartControlV2UITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E3A0369523A1034200DFFD70 /* SmartControlV2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E3A036BE23A1034400DFFD70 /* Build configuration list for PBXNativeTarget "SmartControlV2" */;
+			buildPhases = (
+				E3A0369223A1034200DFFD70 /* Sources */,
+				E3A0369323A1034200DFFD70 /* Frameworks */,
+				E3A0369423A1034200DFFD70 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SmartControlV2;
+			productName = SmartControlV2;
+			productReference = E3A0369623A1034200DFFD70 /* SmartControlV2.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E3A036A923A1034400DFFD70 /* SmartControlV2Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E3A036C123A1034400DFFD70 /* Build configuration list for PBXNativeTarget "SmartControlV2Tests" */;
+			buildPhases = (
+				E3A036A623A1034400DFFD70 /* Sources */,
+				E3A036A723A1034400DFFD70 /* Frameworks */,
+				E3A036A823A1034400DFFD70 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E3A036AC23A1034400DFFD70 /* PBXTargetDependency */,
+			);
+			name = SmartControlV2Tests;
+			productName = SmartControlV2Tests;
+			productReference = E3A036AA23A1034400DFFD70 /* SmartControlV2Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E3A036B423A1034400DFFD70 /* SmartControlV2UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E3A036C423A1034400DFFD70 /* Build configuration list for PBXNativeTarget "SmartControlV2UITests" */;
+			buildPhases = (
+				E3A036B123A1034400DFFD70 /* Sources */,
+				E3A036B223A1034400DFFD70 /* Frameworks */,
+				E3A036B323A1034400DFFD70 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E3A036B723A1034400DFFD70 /* PBXTargetDependency */,
+			);
+			name = SmartControlV2UITests;
+			productName = SmartControlV2UITests;
+			productReference = E3A036B523A1034400DFFD70 /* SmartControlV2UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E3A0368E23A1034200DFFD70 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1030;
+				LastUpgradeCheck = 1030;
+				ORGANIZATIONNAME = Self;
+				TargetAttributes = {
+					E3A0369523A1034200DFFD70 = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					E3A036A923A1034400DFFD70 = {
+						CreatedOnToolsVersion = 10.3;
+						TestTargetID = E3A0369523A1034200DFFD70;
+					};
+					E3A036B423A1034400DFFD70 = {
+						CreatedOnToolsVersion = 10.3;
+						TestTargetID = E3A0369523A1034200DFFD70;
+					};
+				};
+			};
+			buildConfigurationList = E3A0369123A1034200DFFD70 /* Build configuration list for PBXProject "SmartControlV2" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E3A0368D23A1034200DFFD70;
+			productRefGroup = E3A0369723A1034200DFFD70 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E3A0369523A1034200DFFD70 /* SmartControlV2 */,
+				E3A036A923A1034400DFFD70 /* SmartControlV2Tests */,
+				E3A036B423A1034400DFFD70 /* SmartControlV2UITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E3A0369423A1034200DFFD70 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3A036A423A1034400DFFD70 /* LaunchScreen.storyboard in Resources */,
+				E3A036A123A1034400DFFD70 /* Assets.xcassets in Resources */,
+				E3A0369F23A1034200DFFD70 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3A036A823A1034400DFFD70 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3A036B323A1034400DFFD70 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E3A0369223A1034200DFFD70 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3A036CA23A1070200DFFD70 /* RGBViewController.swift in Sources */,
+				E31698F323A19689005FB38F /* BTDiscovery.swift in Sources */,
+				E3A0369C23A1034200DFFD70 /* ViewController.swift in Sources */,
+				E31698F123A195A2005FB38F /* BTService.swift in Sources */,
+				E3A0369A23A1034200DFFD70 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3A036A623A1034400DFFD70 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3A036AF23A1034400DFFD70 /* SmartControlV2Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3A036B123A1034400DFFD70 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3A036BA23A1034400DFFD70 /* SmartControlV2UITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E3A036AC23A1034400DFFD70 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E3A0369523A1034200DFFD70 /* SmartControlV2 */;
+			targetProxy = E3A036AB23A1034400DFFD70 /* PBXContainerItemProxy */;
+		};
+		E3A036B723A1034400DFFD70 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E3A0369523A1034200DFFD70 /* SmartControlV2 */;
+			targetProxy = E3A036B623A1034400DFFD70 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E3A0369D23A1034200DFFD70 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E3A0369E23A1034200DFFD70 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		E3A036A223A1034400DFFD70 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E3A036A323A1034400DFFD70 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E3A036BC23A1034400DFFD70 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E3A036BD23A1034400DFFD70 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E3A036BF23A1034400DFFD70 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C8SV9D682P;
+				INFOPLIST_FILE = SmartControlV2/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = s.SmartControlV2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		E3A036C023A1034400DFFD70 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = C8SV9D682P;
+				INFOPLIST_FILE = SmartControlV2/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = s.SmartControlV2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		E3A036C223A1034400DFFD70 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = SmartControlV2Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = s.SmartControlV2Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartControlV2.app/SmartControlV2";
+			};
+			name = Debug;
+		};
+		E3A036C323A1034400DFFD70 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = SmartControlV2Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = s.SmartControlV2Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartControlV2.app/SmartControlV2";
+			};
+			name = Release;
+		};
+		E3A036C523A1034400DFFD70 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = SmartControlV2UITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = s.SmartControlV2UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SmartControlV2;
+			};
+			name = Debug;
+		};
+		E3A036C623A1034400DFFD70 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = SmartControlV2UITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = s.SmartControlV2UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SmartControlV2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E3A0369123A1034200DFFD70 /* Build configuration list for PBXProject "SmartControlV2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E3A036BC23A1034400DFFD70 /* Debug */,
+				E3A036BD23A1034400DFFD70 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E3A036BE23A1034400DFFD70 /* Build configuration list for PBXNativeTarget "SmartControlV2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E3A036BF23A1034400DFFD70 /* Debug */,
+				E3A036C023A1034400DFFD70 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E3A036C123A1034400DFFD70 /* Build configuration list for PBXNativeTarget "SmartControlV2Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E3A036C223A1034400DFFD70 /* Debug */,
+				E3A036C323A1034400DFFD70 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E3A036C423A1034400DFFD70 /* Build configuration list for PBXNativeTarget "SmartControlV2UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E3A036C523A1034400DFFD70 /* Debug */,
+				E3A036C623A1034400DFFD70 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E3A0368E23A1034200DFFD70 /* Project object */;
+}

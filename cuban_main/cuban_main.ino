@@ -1,7 +1,11 @@
 /* Created by - Brantley Leaphart and Alex Stewart
  *  December 2019
  *  
- *  Important Notes- Please make sure to include the following programs
+ *  Important Notes- This sketch is specifically for the arduino
+ *  responsible for controlling the color of the lights of the program.
+ *  The arduino will recieve color information from the "parent arduino"
+ *  handling recieving info from bluetooth and sensors.
+ *  Please make sure to include the following programs
  *  into your arduino IDE in order to make changes and update the code:
  *    - Boards
  *      - Arduino Nano 33 Sense (tools -> board -> board manager)
@@ -26,13 +30,11 @@
  */
 #include "color_vector.h"
 #include "color_calculator.h"
-#include <ArduinoBLE.h>
-#include <Arduino_HTS221.h>
-#include <Arduino_APDS9960.h>
 #include <Adafruit_NeoPixel.h>
+#include <Wire.h>
 
 // Number of pixels that we have.
-int pixels = 9;
+int pixels = 24;
 
 enum MODE {
   color_clock,
@@ -42,6 +44,11 @@ enum MODE {
 
 MODE currentMode = real_time;
 
+#define SLAVE_ADDR 9
+#define ANSWERSIZE 2
+
+
+
 
 // inputs: number of pixels, pin number out, color ordering
 Adafruit_NeoPixel strip(pixels, 11, NEO_GRB); //  + NEO_KHZ800
@@ -49,83 +56,35 @@ Adafruit_NeoPixel strip(pixels, 11, NEO_GRB); //  + NEO_KHZ800
 // color calc obj
 ColorCalculator calc = ColorCalculator();
 
+void initStrip() {
+  ColorVector c = ColorVector(0,0,0,0);
+  for (int i = 0; i < pixels; i++) {
+    setColorForPixel(i, c);
+  }
+}
+
 // the setup function runs once when you press reset or power the board
 void setup() {
   // initialize digital pin LED_BUILTIN as an output.
+  Serial.begin(9600);
+//  Serial.println("this hoe working");
   pinMode(LED_BUILTIN, OUTPUT);
 
-  // initializing sensors
-  HTS.begin(); // initializing temp and humidity sensors
-  APDS.begin(); // initializing gestures
+  // INITING THE BOARD AS THE LISTENER
+  Wire.begin(SLAVE_ADDR);
+
+  //Wire.onRequest(postData);
+
+  Wire.onReceive(pullData);
 
   strip.begin();
+  //initStrip();
   strip.show(); // Initialize all pixels to 'off'
-  
-  Serial.begin(9600);
 }
 
 // the loop function runs over and over again forever
 void loop() {
-
-  // pull data from app.
-  pullData();
-
-  // Operate based on the mode
-  operateMode();
-
-  // push data if needed
-  postData();
-  
-}
-
-/**
- * getTemperature is a function that will return the current Temperature being read by the Arduino.
- * return - returns the float representing the current temperature. (in celcius)
- */
-float getTemperature() {
-  return HTS.readTemperature();
-}
-
-/**
- * getHumidity is a function that will return the current Humidity being read by the Arduino.
- * return - returns the float representing the current Humidity. (percentage)
- */
-float getHumidity() {
-  return HTS.readHumidity();
-}
-
-/**
- * getGesture is a function that will return the current Gesture being read by the Arduino.
- * return - returns the int representing the current Gesture. -1 if there is no available gesture.
- * Possible gestures are:
- *    GESTURE_UP - “up” gesture
- *    GESTURE_DOWN - “down” gesture
- *    GESTURE_LEFT - “left” gesture
- *    GESTURE_RIGHT - “right” gesture
- *    GESTURE_NONE - the gesture doesn’t match any of the above
- */
-int getGesture() {
-  if (APDS.gestureAvailable()) {
-    // a gesture was detected
-    return APDS.readGesture();
-  }
-  return -1;
-}
-
-
-/**
- * getSensorColors is a function that will return the current Colors being read by the Arduino.
- * return - returns a Color class that contains the red, green, blue, and alpha values from the sensor.
- * If the sensor is not available, returns a transparent color (0,0,0,0).
- */
-ColorVector getSensorColors() {
-  if (APDS.colorAvailable()) {
-    int r, g, b, a;
-    // read the color
-    APDS.readColor(r, g, b, a);
-    return ColorVector(r, g, b, a);
-  }
-  return ColorVector(0,0,0,0);
+  strip.show();
 }
 
 /**
@@ -133,55 +92,53 @@ ColorVector getSensorColors() {
  * This function might store the current color the pixel in some data structure.
  */
 void setColorForPixel(int pixel, ColorVector c) {
+//  Serial.println(pixel);
+//  Serial.println(c.r);
+//  Serial.println(c.g);
+//  Serial.println(c.b);
+  
   strip.setPixelColor(pixel, c.g, c.r, c.b);
 }
-
-ColorVector calcColorBasedOnTemp(float currentTemp) {
-  int red;
-  int green;
-  int blue;
-
-  calc.populateWeatherColors(currentTemp, red, green, blue);
-
-  return ColorVector(red, green, blue, 255);
-}
-
-/**
- * currentWeatherColor will handle constantly updating the lights of the chain based on the weather.
- * read from the sensors.
- */
-void currentWeatherColor() {
-  float currentTemp = getTemperature();
-  ColorVector newColor = calcColorBasedOnTemp(currentTemp);
-
-  for (int i = 0; i < pixels; i++) {
-    setColorForPixel(i, newColor);
-  }
-}
-
-void operateMode() {
-  switch(currentMode) {
-    case color_clock:
-    // statements
-    break;
-  case manual:
-    // statements
-    break;
-  case real_time:
-    currentWeatherColor();
-    break;
-  default:
-    currentWeatherColor();
-    break;
-  }
-}
-
 
 /**
  * This function will pull data back from the App.
  * I don't know how this will work lol.
+ * 
+ * Order that should be sent and read in:
+ *  the led number being updated
+ *  red value
+ *  green value
+ *  blue value
  */
-void pullData() {}
+void pullData(int howMany) {
+  // pulling data while the connection is open
+  String arr[16];
+  int i = 0;
+  
+  //Serial.println("Wire Availability: " + Wire.available());
+  while(Wire.available()) {
+    Serial.println("receveji");
+     arr[i] = (String)Wire.read();
+     i++;
+  }
+
+  for(int j = 0; j < 4; j++) {
+    Serial.println("value at index " + (String)j + ": " + arr[j]);
+  }
+
+  
+  int pixelNum = arr[0].toInt();
+  int red = arr[1].toInt();
+  int green = arr[2].toInt();
+  int blue = arr[3].toInt();
+//  Serial.println("pixel: " + pixelNum);
+//  Serial.println("r:" + red);
+//  Serial.println("g:" + green);
+//  Serial.println("b:" + blue);
+
+  // putting the color for the pixel
+  setColorForPixel(pixelNum, ColorVector(red, green, blue, 0));
+}
 
 /**
  * A function that will handle posting all relevant data needed for the IOS application.
