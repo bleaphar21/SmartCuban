@@ -4,11 +4,15 @@
 */
 #include "color_vector.h"
 #include "color_calculator.h"
+//#include "fastpwm.h"
 #include <Adafruit_NeoPixel.h>
 #include <ArduinoBLE.h>
 #include <Arduino_HTS221.h>
 #include <Arduino_APDS9960.h>
 #include <Wire.h>
+
+#define SAMPLE_RATE 8000 //number of ticks in a second 
+volatile unsigned long timer_count = 0; //Value of the timer
 
 int pixels = 24;
 
@@ -23,7 +27,9 @@ int readTemp = 0;
 int red = 0;
 int green = 0;
 int blue = 0;
+int currentHour = 0;
 
+MODE prevCurrentMode = manual;
 int prevReadTemp = 0;
 int prevRed = 0;
 int prevGreen = 0;
@@ -51,10 +57,45 @@ BLEDevice mainCentralDevice;
 #define SLAVE_ADDR 9
 #define ANSWERSIZE 2
 
+//// This function is the Interrupt Service Routine (ISR), which is called
+//// every time an interrupt occurs for
+//ISR(TIMER1_COMPA_vect) {
+//  timer_count++;
+//  //28800000 represents the time in ticks for an hour
+//  if ((timer_count % 28800000) == 0) {
+//    currentHour++;
+//    ColorVector newColor = calcColorBasedOnTemp(readTemp);
+//    pushColorForPixel(0, newColor);
+//  }
+//}
+
+//void init_timer(void) // Call this function from setup()
+//{
+//  noInterrupts(); // Disable all interrupts
+//  // Clear Timer1 register configuration
+//  TCCR1A = 0; TCCR1B = 0;
+//  // Configure Timer1 for CTC mode (WGM = 0b0100)
+//  bitSet(TCCR1B , WGM12);
+//  // Disable prescaler
+//  bitSet(TCCR1B , CS10);
+//
+//  // Set timer period, which is defined as the number of
+//  // CPU clock cycles (1/16MHz) between interrupts - 1
+//  OCR1A = (F_CPU / SAMPLE_RATE) - 1;
+//
+//  // Enable timer interrupts when timer count reaches value in OCR1A
+//  bitSet(TIMSK1 , OCIE1A);
+//
+//  interrupts(); // Enable interrupts
+//}
+
 void setup()
 {
   Serial.begin(9600);
   while (!Serial);
+
+//  init_timer();
+//  fastpwm_init();
 
   // setting up ble services.
   if (!BLE.begin()) {
@@ -85,10 +126,12 @@ void loop()
   }
 
   if (mainCentralDevice.connected()) { // a bluetooth is connected...
-    Serial.println("A device is connected...");
+    //Serial.println("A device is connected...");
     // read values from the characteristics
-    readTemp = temperatureCelsius.value();
-    int x = modeChar.value();
+    byte rt = temperatureCelsius.value();
+    readTemp = (int)rt;
+    byte pre_x = modeChar.value();
+    int x = (int)pre_x;
     switch (x) {
       case 1:
         currentMode = real_time;
@@ -108,24 +151,32 @@ void loop()
     green = (int)y;
     blue = (int)z;
 
-    Serial.print("readTemp: ");
-    Serial.println(readTemp);
-    Serial.print("currentMode: ");
-    Serial.println(currentMode);
-    Serial.print("red: ");
-    Serial.println(v);
-    Serial.print("green: ");
-    Serial.println(y);
-    Serial.print("blue: ");
-    Serial.println(z);
+    //    Serial.print("readTemp: ");
+    //    Serial.println(readTemp);
+    //    Serial.print("currentMode: ");
+    //    Serial.println(currentMode);
+    //    Serial.print("red: ");
+    //    Serial.println(v);
+    //    Serial.print("green: ");
+    //    Serial.println(y);
+    //    Serial.print("blue: ");
+    //    Serial.println(z);
     // might need one more characteristic that has the rgb values for manual mode...
     // pass values to diff functions based on the mode.
   }
 
-  if (readTemp != prevReadTemp ||
+  if (currentMode != prevCurrentMode ||
+      readTemp != prevReadTemp ||
       red != prevRed ||
       green != prevGreen ||
       blue != prevBlue) {
+//    if (currentMode == color_clock) {
+//      timer_count = 0;
+//      currentHour = 0;
+//      ColorVector newColor = calcColorBasedOnTemp(readTemp);
+//      pushColorForPixel(0, newColor);
+//    }
+    prevCurrentMode = currentMode;
     prevReadTemp = readTemp;
     prevRed = red;
     prevBlue = blue;
@@ -145,9 +196,9 @@ void pushColorForPixel(int pixel, ColorVector c) {
   //  Serial.println("Green: " + c.g);
   //  Serial.println("Blue: " + c.b);
   //  Serial.println("This is the current color vector: ");
-  //  Serial.println((String) c.r);
-  //  Serial.println((String) c.g);
-  //  Serial.println((String) c.b);
+  Serial.println((String) c.r);
+  Serial.println((String) c.g);
+  Serial.println((String) c.b);
   Wire.beginTransmission(SLAVE_ADDR); // transmit to device #4
   Wire.write(pixel);        // sends five bytes
   Wire.write(c.r);          // sends one byte
@@ -158,10 +209,6 @@ void pushColorForPixel(int pixel, ColorVector c) {
 }
 
 ColorVector calcColorBasedOnTemp(float currentTemp) {
-  int red;
-  int green;
-  int blue;
-
   calc.populateWeatherColors(currentTemp, red, green, blue);
 
   return ColorVector(red, green, blue, 0);
@@ -172,10 +219,11 @@ ColorVector calcColorBasedOnTemp(float currentTemp) {
    read from the sensors.
 */
 void currentWeatherColor() {
-  //Serial.println("current_color_weather");
+  Serial.println("current_color_weather");
   ColorVector newColor = calcColorBasedOnTemp(readTemp);
 
   for (int i = 0; i < pixels; i++) {
+    delay(100);
     pushColorForPixel(i, newColor);
     //delay(10000);
   }
@@ -191,9 +239,9 @@ void setManualColor() {
   for (int i = 0; i < pixels; i++) {
     pushColorForPixel(i, c);
     delay(100);
-//    while(Wire.requestFrom(SLAVE_ADDR, 1)){
-//      Serial.println("we are waiting...");
-//    }  
+    //    while(Wire.requestFrom(SLAVE_ADDR, 1)){
+    //      Serial.println("we are waiting...");
+    //    }
     //delay(5000);
   }
 }

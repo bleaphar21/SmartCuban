@@ -14,7 +14,7 @@ class ColorCalculator {
     }
 
   private:
-    const float minTemp = 10.0;
+    const float minTemp = -20.0;
     const float maxTemp = 50.0;
     const float Gamma = 0.80;
     const int   IntensityMax = 255;

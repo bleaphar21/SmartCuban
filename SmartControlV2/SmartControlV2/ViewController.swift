@@ -18,10 +18,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var bLabel: UILabel!
     @IBOutlet weak var imgBluetoothStatus: UIImageView!
     
+    @IBOutlet weak var weatherLabel: UILabel!
+    
     var timerTXDelay: Timer?
     var allowTX = true
     var lastPosition: UInt8 = 255
-    
+    var temp: Int = 0
     
     var redVal: Int = 0
     
@@ -32,6 +34,8 @@ class ViewController: UIViewController {
     @IBAction func rtBttn(_ sender: UIButton) {
         modeVal.text = "Real Time"
         self.sendMode(modeVal.text!)
+        self.getWeatherData()
+        self.sendTemp()
     }
 
     
@@ -46,6 +50,38 @@ class ViewController: UIViewController {
         self.sendMode(modeVal.text!)
     }
     
+    func getWeatherData(){
+    let session = URLSession.shared
+    let weatherURL = URL(string: "http://api.openweathermap.org/data/2.5/weather?q=Providence,us?&units=metric&APPID=aecbea292e94c35540bea8d16fe7c303")!
+    let dataTask = session.dataTask(with: weatherURL) {
+        (data: Data?, response: URLResponse?, error: Error?) in
+        if let error = error {
+            print("Error:\n\(error)")
+        } else {
+            if let data = data {
+                let dataString = String(data: data, encoding: String.Encoding.utf8)
+                print("All the weather data:\n\(dataString!)")
+                if let jsonObj = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary {
+                    if let mainDictionary = jsonObj.value(forKey: "main") as? NSDictionary {
+                        if let temperature = mainDictionary.value(forKey: "temp") {
+                            DispatchQueue.main.async {
+                                self.weatherLabel.text = "\(temperature)°C"
+                                self.temp = (temperature as! NSNumber).intValue
+                            }
+                        }
+                    } else {
+                        print("Error: unable to find temperature in dictionary")
+                    }
+                } else {
+                    print("Error: unable to convert json data")
+                }
+            } else {
+                print("Error: did not receive data")
+            }
+        }
+    }
+    dataTask.resume()
+    }
     
     @IBAction func pushBttn(_ sender: Any) {
         self.sendRGB()
@@ -59,6 +95,7 @@ class ViewController: UIViewController {
         rLabel.text = String(redVal)
         gLabel.text = String(greenVal)
         bLabel.text = String(blueVal)
+        self.getWeatherData()
         // Watch Bluetooth connection
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.connectionChanged(_:)), name: NSNotification.Name(rawValue: BLEServiceChangedStatusNotification), object: nil)
         
@@ -198,7 +235,26 @@ class ViewController: UIViewController {
         allowTX = true;
         
     }
+    
+    func sendTemp() {
+        //        if !allowTX{
+        //            return
+        //        }
+        //
+        print(self.temp)
+        if let bleService = btDiscoverySharedInstance.bleService {
+            bleService.writeTemp(t: &temp)
+            //bleService.writeBlueValue(b: &blueVal)
+        }
         
+        allowTX = false
+        if timerTXDelay == nil {
+            timerTXDelay = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.timerTXDelayElapsed), userInfo: nil, repeats: false)
+        }
+        allowTX = true;
+        
+    }
+    
         @objc func timerTXDelayElapsed() {
             self.allowTX = true
             self.stopTimerTXDelay()

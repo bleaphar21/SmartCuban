@@ -189,6 +189,15 @@ class BTService: NSObject, CBPeripheralDelegate {
         }
     }
     
+    func writeTemp(t: inout Int) {
+        print("In the Temp value")
+        if let currTemp = self.temperatureCelsius {
+            let data = Data(bytes: &t,
+                            count: MemoryLayout.size(ofValue: t))
+            self.peripheral?.writeValue(data, for: currTemp, type: CBCharacteristicWriteType.withResponse)
+        }
+    }
+    
     func sendBTServiceNotificationWithIsBluetoothConnected(_ isBluetoothConnected: Bool) {
         let connectionDetails = ["isConnected": isBluetoothConnected]
         NotificationCenter.default.post(name: Notification.Name(rawValue: BLEServiceChangedStatusNotification), object: self, userInfo: connectionDetails)
