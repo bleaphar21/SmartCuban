@@ -31,15 +31,19 @@ class ViewController: UIViewController {
     
     @IBAction func rtBttn(_ sender: UIButton) {
         modeVal.text = "Real Time"
+        self.sendMode(modeVal.text!)
     }
+
     
     
     @IBAction func ManualBttn(_ sender: UIButton) {
         modeVal.text = "Manual"
+        self.sendMode(modeVal.text!)
     }
     
     @IBAction func ccBttn(_ sender: UIButton) {
         modeVal.text = "Color Clock"
+        self.sendMode(modeVal.text!)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,6 +61,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func passBack(_ unwindSegue: UIStoryboardSegue) {
+        self.sendRed()
+        self.sendGreen()
+        self.sendBlue()
 }
         
         deinit {
@@ -87,18 +94,31 @@ class ViewController: UIViewController {
             });
         }
         
-        func sendPosition(_ position: [UInt8]) {
+        func sendMode(_ position: String) {
             if !allowTX{
                 return
             }
             
  
-            else if position.isEmpty{
-                return
-            }
+//            else if position == NULL{
+//                return
+//            }
             
             if let bleService = btDiscoverySharedInstance.bleService {
-                bleService.writeRedValue(r: &redVal)
+                switch(position){
+                case "Real Time":
+                    var x: Int = 1
+                    bleService.writeMode(m: &x)
+                case "Manual":
+                    var x: Int = 2
+                    bleService.writeMode(m: &x)
+                case "Color Clock":
+                    var x: Int = 3
+                    bleService.writeMode(m: &x)
+                default:
+                    return
+                }
+                
             }
             
             allowTX = false
@@ -107,6 +127,70 @@ class ViewController: UIViewController {
             }
             
         }
+    
+    func sendRed() {
+        if !allowTX{
+            return
+        }
+        
+        
+        //            else if position == NULL{
+        //                return
+        //            }
+        
+        if let bleService = btDiscoverySharedInstance.bleService {
+            bleService.writeRedValue(r: &redVal)
+        }
+        
+        allowTX = false
+        if timerTXDelay == nil {
+            timerTXDelay = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.timerTXDelayElapsed), userInfo: nil, repeats: false)
+        }
+        
+    }
+    
+    
+    func sendGreen() {
+        if !allowTX{
+            return
+        }
+        
+        
+        //            else if position == NULL{
+        //                return
+        //            }
+        
+        if let bleService = btDiscoverySharedInstance.bleService {
+            bleService.writeGreenValue(g: &greenVal)
+        }
+        
+        allowTX = false
+        if timerTXDelay == nil {
+            timerTXDelay = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.timerTXDelayElapsed), userInfo: nil, repeats: false)
+        }
+        
+    }
+    
+    func sendBlue() {
+        if !allowTX{
+            return
+        }
+        
+        
+        //            else if position == NULL{
+        //                return
+        //            }
+        
+        if let bleService = btDiscoverySharedInstance.bleService {
+            bleService.writeBlueValue(b: &blueVal)
+        }
+        
+        allowTX = false
+        if timerTXDelay == nil {
+            timerTXDelay = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.timerTXDelayElapsed), userInfo: nil, repeats: false)
+        }
+        
+    }
         
         @objc func timerTXDelayElapsed() {
             self.allowTX = true

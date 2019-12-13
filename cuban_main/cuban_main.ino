@@ -26,7 +26,6 @@
  *          - Real Time Weather Color: Changes the LED colors based on the weather read by the Arduino sensors.
  *        2. Function to handle turning celcius temp into a color.
  *      
- * 
  */
 #include "color_vector.h"
 #include "color_calculator.h"

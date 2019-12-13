@@ -32,7 +32,7 @@ ColorCalculator calc = ColorCalculator();
 
 // code to set up bluetooth service and characteristics...
 BLEService cubanLinkService("ac4f4e48-c67a-4a85-b98f-385a7bc1fe59"); // our bt service
-BLEIntCharacteristic modeChar("777691a5-ddf1-4956-9066-fc49fa9cef25", BLERead | BLEWrite | BLENotify | BLEIndicate); // charateristic to tell when mode changes.
+BLEIntCharacteristic modeChar("862b4730-806e-4133-a965-b4d7dc14b68b", BLERead | BLEWrite | BLENotify | BLEIndicate); // charateristic to tell when mode changes.
 BLEIntCharacteristic temperatureCelsius("1101", BLERead | BLEWrite | BLENotify | BLEIndicate);
 BLEIntCharacteristic redValue("2101", BLERead | BLEWrite | BLENotify | BLEIndicate);
 BLEIntCharacteristic greenValue("3101", BLERead | BLEWrite | BLENotify | BLEIndicate);
@@ -73,6 +73,7 @@ void loop()
 {
   delay(1000);
   if(mainCentralDevice == NULL) {
+    Serial.println("It's null");
     mainCentralDevice = BLE.central();
   }
 
@@ -146,7 +147,7 @@ void currentWeatherColor() {
  * function to set the manual color...
  */
 void setManualColor() {
-  ColorVector c = ColorVector(50, 0, 50, 0);
+  ColorVector c = ColorVector(50, 50, 0, 0);
 
    for (int i = 0; i < pixels; i++) {
     pushColorForPixel(i, c);
