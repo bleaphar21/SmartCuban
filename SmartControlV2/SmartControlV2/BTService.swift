@@ -7,7 +7,7 @@ import Foundation
 import CoreBluetooth
 
 let BLEServiceUUID = CBUUID(string: "ac4f4e48-c67a-4a85-b98f-385a7bc1fe59")
-let modeCharUUID = CBUUID(string: "777691a5-ddf1-4956-9066-fc49fa9cef25")
+let modeCharUUID = CBUUID(string: "862b4730-806e-4133-a965-b4d7dc14b68b")
 let temperatureCelsiusUUID = CBUUID(string: "1101")
 let redValueUUID = CBUUID(string: "2101")
 let greenValueUUID = CBUUID(string: "3101")
@@ -87,7 +87,7 @@ class BTService: NSObject, CBPeripheralDelegate {
             for characteristic in characteristics {
                 switch characteristic.uuid {
                 case modeCharUUID:
-                    print("In the mode characteristic")
+//                    print("In the mode characteristic")
                     self.modeChar = (characteristic)
                     peripheral.setNotifyValue(true, for: characteristic)
                    // writeMode(&mode: &<#T##Int#>)
@@ -95,7 +95,7 @@ class BTService: NSObject, CBPeripheralDelegate {
                     self.sendBTServiceNotificationWithIsBluetoothConnected(true)
                     
                 case temperatureCelsiusUUID:
-                    print("In the temperature characteristic")
+//                    print("In the temperature characteristic")
                     self.temperatureCelsius = (characteristic)
                     peripheral.setNotifyValue(true, for: characteristic)
                     
@@ -103,7 +103,7 @@ class BTService: NSObject, CBPeripheralDelegate {
                     self.sendBTServiceNotificationWithIsBluetoothConnected(true)
                     
                 case redValueUUID:
-                    print("In the red characteristic")
+//                    print("In the red characteristic")
                     self.redValue = (characteristic)
                     peripheral.setNotifyValue(true, for: characteristic)
                     
@@ -111,7 +111,7 @@ class BTService: NSObject, CBPeripheralDelegate {
                     self.sendBTServiceNotificationWithIsBluetoothConnected(true)
                 
                 case greenValueUUID:
-                    print("In the green characteristic")
+//                    print("In the green characteristic")
                     self.greenValue = (characteristic)
                     peripheral.setNotifyValue(true, for: characteristic)
                     
@@ -119,7 +119,7 @@ class BTService: NSObject, CBPeripheralDelegate {
                     self.sendBTServiceNotificationWithIsBluetoothConnected(true)
                     
                 case blueValueUUID:
-                    print("In the blue characteristic")
+//                    print("In the blue characteristic")
                     self.blueValue = (characteristic)
                     peripheral.setNotifyValue(true, for: characteristic)
                     
@@ -134,23 +134,45 @@ class BTService: NSObject, CBPeripheralDelegate {
     
     // Mark: - Private
     
+    func writeRgb(r: inout Int, g: inout Int, b: inout Int) {
+        print("In the red value")
+        if let redVal = self.redValue {
+            let data = Data(bytes: &r,
+                            count: MemoryLayout.size(ofValue: r))
+            self.peripheral?.writeValue(data, for: redVal, type: CBCharacteristicWriteType.withResponse)
+        }
+        if let greenVal = self.greenValue {
+            let data = Data(bytes: &g,
+                            count: MemoryLayout.size(ofValue: g))
+            self.peripheral?.writeValue(data, for: greenVal, type: CBCharacteristicWriteType.withResponse)
+        }
+        if let blueVal = self.blueValue {
+            let data = Data(bytes: &b,
+                            count: MemoryLayout.size(ofValue: b))
+            self.peripheral?.writeValue(data, for: blueVal, type: CBCharacteristicWriteType.withResponse)
+        }
+    }
+    
     func writeRedValue(r: inout Int) {
+        print("In the red value")
         if let redVal = self.redValue {
             let data = Data(bytes: &r,
                             count: MemoryLayout.size(ofValue: r))
             self.peripheral?.writeValue(data, for: redVal, type: CBCharacteristicWriteType.withResponse)
         }
     }
-    
+
     func writeGreenValue(g: inout Int) {
+        print("In the green value")
         if let greenVal = self.greenValue {
             let data = Data(bytes: &g,
                             count: MemoryLayout.size(ofValue: g))
             self.peripheral?.writeValue(data, for: greenVal, type: CBCharacteristicWriteType.withResponse)
         }
     }
-    
+
     func writeBlueValue(b: inout Int) {
+        print("In the blue value")
         if let blueVal = self.blueValue {
             let data = Data(bytes: &b,
                             count: MemoryLayout.size(ofValue: b))
@@ -159,6 +181,7 @@ class BTService: NSObject, CBPeripheralDelegate {
     }
     
     func writeMode(m: inout Int) {
+        print("In the mode value")
         if let mode = self.modeChar {
             let data = Data(bytes: &m,
                             count: MemoryLayout.size(ofValue: m))

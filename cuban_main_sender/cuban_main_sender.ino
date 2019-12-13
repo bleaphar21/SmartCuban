@@ -1,7 +1,7 @@
 /**
- * 
- * add our explaination here..
- */
+
+   add our explaination here..
+*/
 #include "color_vector.h"
 #include "color_calculator.h"
 #include <Adafruit_NeoPixel.h>
@@ -23,6 +23,13 @@ int readTemp = 0;
 int red = 0;
 int green = 0;
 int blue = 0;
+
+int prevReadTemp = 0;
+int prevRed = 0;
+int prevGreen = 0;
+int prevBlue = 0;
+
+bool readyToSend = false;
 
 // color calc obj
 ColorCalculator calc = ColorCalculator();
@@ -47,12 +54,12 @@ BLEDevice mainCentralDevice;
 void setup()
 {
   Serial.begin(9600);
-  while(!Serial);
+  while (!Serial);
 
   // setting up ble services.
-  if(!BLE.begin()) {
+  if (!BLE.begin()) {
     Serial.println("starting BLE failed!!");
-    while(1);
+    while (1);
   }
   // making service available
   BLE.setLocalName("CubanLink");
@@ -65,59 +72,89 @@ void setup()
   BLE.addService(cubanLinkService);
   BLE.advertise(); // bluetooth device is now active...
   Serial.println("Bluetooth device active!!");
-  
+
   Wire.begin(); // join i2c bus (address optional for master)
 }
 
 void loop()
 {
-  delay(1000);
-  if(mainCentralDevice == NULL) {
+  //delay(1000);
+  if (mainCentralDevice == NULL) {
     Serial.println("It's null");
     mainCentralDevice = BLE.central();
   }
 
-  if(mainCentralDevice.connected()) { // a bluetooth is connected...
+  if (mainCentralDevice.connected()) { // a bluetooth is connected...
     Serial.println("A device is connected...");
     // read values from the characteristics
     readTemp = temperatureCelsius.value();
-    currentMode = (MODE)modeChar.value();
-    red = redValue.value();
-    green = greenValue.value();
-    blue = blueValue.value();
-    
-    Serial.println("readTemp: " + readTemp);
-    Serial.println("currentMode: " + currentMode);
-    Serial.println("red: " + red);
-    Serial.println("green: " + green);
-    Serial.println("blue: " + blue);
+    int x = modeChar.value();
+    switch (x) {
+      case 1:
+        currentMode = real_time;
+        break;
+      case 2:
+        currentMode = manual;
+        break;
+      case 3:
+        currentMode = color_clock;
+        break;
+    }
+    byte v = redValue.value();
+    byte y = greenValue.value();
+    byte z = blueValue.value();
+
+    red = (int)v;
+    green = (int)y;
+    blue = (int)z;
+
+    Serial.print("readTemp: ");
+    Serial.println(readTemp);
+    Serial.print("currentMode: ");
+    Serial.println(currentMode);
+    Serial.print("red: ");
+    Serial.println(v);
+    Serial.print("green: ");
+    Serial.println(y);
+    Serial.print("blue: ");
+    Serial.println(z);
     // might need one more characteristic that has the rgb values for manual mode...
     // pass values to diff functions based on the mode.
   }
 
-  operateMode();
+  if (readTemp != prevReadTemp ||
+      red != prevRed ||
+      green != prevGreen ||
+      blue != prevBlue) {
+    prevReadTemp = readTemp;
+    prevRed = red;
+    prevBlue = blue;
+    prevGreen = green;
+    operateMode();
+  }
+
 }
 
 /**
- * setColorforPixel will set the color for the specified pixel. 
- * This function might store the current color the pixel in some data structure.
- */
+   setColorforPixel will set the color for the specified pixel.
+   This function might store the current color the pixel in some data structure.
+*/
 void pushColorForPixel(int pixel, ColorVector c) {
-//  Serial.println("Pixel: " + pixel);
-//  Serial.println("Red: " + c.r);
-//  Serial.println("Green: " + c.g);
-//  Serial.println("Blue: " + c.b);
-  Serial.println("This is the current color vector: ");
-  Serial.println((String) c.r);
-  Serial.println((String) c.g);
-  Serial.println((String) c.b);
+  //  Serial.println("Pixel: " + pixel);
+  //  Serial.println("Red: " + c.r);
+  //  Serial.println("Green: " + c.g);
+  //  Serial.println("Blue: " + c.b);
+  //  Serial.println("This is the current color vector: ");
+  //  Serial.println((String) c.r);
+  //  Serial.println((String) c.g);
+  //  Serial.println((String) c.b);
   Wire.beginTransmission(SLAVE_ADDR); // transmit to device #4
   Wire.write(pixel);        // sends five bytes
-  Wire.write(c.r);          // sends one byte  
+  Wire.write(c.r);          // sends one byte
   Wire.write(c.g);
   Wire.write(c.b);
   Wire.endTransmission();    // stop transmitting
-  delay(1000);
+  //delay(1000);
 }
 
 ColorVector calcColorBasedOnTemp(float currentTemp) {
@@ -131,34 +168,41 @@ ColorVector calcColorBasedOnTemp(float currentTemp) {
 }
 
 /**
- * currentWeatherColor will handle constantly updating the lights of the chain based on the weather.
- * read from the sensors.
- */
+   currentWeatherColor will handle constantly updating the lights of the chain based on the weather.
+   read from the sensors.
+*/
 void currentWeatherColor() {
   //Serial.println("current_color_weather");
   ColorVector newColor = calcColorBasedOnTemp(readTemp);
 
   for (int i = 0; i < pixels; i++) {
     pushColorForPixel(i, newColor);
+    //delay(10000);
   }
+
 }
 
 /**
- * function to set the manual color...
- */
+   function to set the manual color...
+*/
 void setManualColor() {
-  ColorVector c = ColorVector(50, 50, 0, 0);
+  ColorVector c = ColorVector(red, green, blue, 0);
 
-   for (int i = 0; i < pixels; i++) {
+  for (int i = 0; i < pixels; i++) {
     pushColorForPixel(i, c);
+    delay(100);
+//    while(Wire.requestFrom(SLAVE_ADDR, 1)){
+//      Serial.println("we are waiting...");
+//    }  
+    //delay(5000);
   }
 }
 
 void operateMode() {
   //Serial.println("operating");
-  switch(currentMode) {
+  switch (currentMode) {
     case color_clock:
-      Serial.println("cc");
+      //Serial.println("cc");
       // statements
       break;
     case manual:
@@ -166,7 +210,7 @@ void operateMode() {
       setManualColor();
       break;
     case real_time:
-      Serial.println("r_t");
+      //Serial.println("r_t");
       currentWeatherColor();
       break;
     default:

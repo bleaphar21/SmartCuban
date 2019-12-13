@@ -9,7 +9,6 @@
 import UIKit
 
 class RGBViewController: UIViewController {
-
     
     @IBOutlet weak var redSlider: UISlider!
     @IBOutlet weak var greenSlider: UISlider!
@@ -30,18 +29,18 @@ class RGBViewController: UIViewController {
         RedTF.text = String(r)
         //Self.view.backgroundColor = Color
         
-        self.view.backgroundColor = UIColor(red: CGFloat(r), green: CGFloat(g), blue: CGFloat(b), alpha: 1)
+        self.view.backgroundColor = UIColor(red: CGFloat(r)/255, green: CGFloat(g)/255, blue: CGFloat(b)/255, alpha: 1)
     }
     @IBAction func GreenChanged(_ sender: Any) {
         g = Int(greenSlider.value)
         GreenTF.text = String(g)
-        self.view.backgroundColor = UIColor(red: CGFloat(r), green: CGFloat(g), blue: CGFloat(b), alpha: 1)
+        self.view.backgroundColor = UIColor(red: CGFloat(r)/255, green: CGFloat(g)/255, blue: CGFloat(b)/255, alpha: 1)
     }
     
     @IBAction func BlueChanged(_ sender: Any) {
         b = Int(blueSlider.value)
         BlueTF.text = String(b)
-        self.view.backgroundColor = UIColor(red: CGFloat(r), green: CGFloat(g), blue: CGFloat(b), alpha: 1)
+        self.view.backgroundColor = UIColor(red: CGFloat(r)/255, green: CGFloat(g)/255, blue: CGFloat(b)/255, alpha: 1)
     }
     
     override func viewDidLoad() {
@@ -53,6 +52,9 @@ class RGBViewController: UIViewController {
         mainVC.redVal = r
         mainVC.greenVal = g
         mainVC.blueVal = b
+//        mainVC.sendRed()
+//        mainVC.sendGreen()
+//        mainVC.sendBlue()
 //        mainVC.rLabel.text = RedTF.text
 //        mainVC.gLabel.text = GreenTF.text
 //        mainVC.bLabel.text = BlueTF.text

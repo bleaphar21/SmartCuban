@@ -46,12 +46,19 @@ class ViewController: UIViewController {
         self.sendMode(modeVal.text!)
     }
     
+    
+    @IBAction func pushBttn(_ sender: Any) {
+        self.sendRGB()
+//        self.sendRed()
+//        self.sendBlue()
+//        self.sendGreen()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         rLabel.text = String(redVal)
         gLabel.text = String(greenVal)
         bLabel.text = String(blueVal)
-        
         // Watch Bluetooth connection
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.connectionChanged(_:)), name: NSNotification.Name(rawValue: BLEServiceChangedStatusNotification), object: nil)
         
@@ -61,9 +68,6 @@ class ViewController: UIViewController {
     }
     
     @IBAction func passBack(_ unwindSegue: UIStoryboardSegue) {
-        self.sendRed()
-        self.sendGreen()
-        self.sendBlue()
 }
         
         deinit {
@@ -128,60 +132,20 @@ class ViewController: UIViewController {
             
         }
     
-    func sendRed() {
-        if !allowTX{
-            return
-        }
-        
-        
+    func sendRGB() {
+//        if !allowTX{
+//            return
+//        }
+//
+        print(redVal)
         //            else if position == NULL{
         //                return
         //            }
         
         if let bleService = btDiscoverySharedInstance.bleService {
+          //  bleService.writeRgb(r: &redVal, g: &greenVal, b: &blueVal)
             bleService.writeRedValue(r: &redVal)
-        }
-        
-        allowTX = false
-        if timerTXDelay == nil {
-            timerTXDelay = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.timerTXDelayElapsed), userInfo: nil, repeats: false)
-        }
-        
-    }
-    
-    
-    func sendGreen() {
-        if !allowTX{
-            return
-        }
-        
-        
-        //            else if position == NULL{
-        //                return
-        //            }
-        
-        if let bleService = btDiscoverySharedInstance.bleService {
             bleService.writeGreenValue(g: &greenVal)
-        }
-        
-        allowTX = false
-        if timerTXDelay == nil {
-            timerTXDelay = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.timerTXDelayElapsed), userInfo: nil, repeats: false)
-        }
-        
-    }
-    
-    func sendBlue() {
-        if !allowTX{
-            return
-        }
-        
-        
-        //            else if position == NULL{
-        //                return
-        //            }
-        
-        if let bleService = btDiscoverySharedInstance.bleService {
             bleService.writeBlueValue(b: &blueVal)
         }
         
@@ -189,6 +153,49 @@ class ViewController: UIViewController {
         if timerTXDelay == nil {
             timerTXDelay = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.timerTXDelayElapsed), userInfo: nil, repeats: false)
         }
+        allowTX = true;
+        
+    }
+    
+    
+    func sendGreen() {
+//        if !allowTX{
+//            return
+//        }
+//
+        print(greenVal)
+        //            else if position == NULL{
+        //                return
+        //            }
+        
+        if let bleService = btDiscoverySharedInstance.bleService {
+            
+            //bleService.writeGreenValue(g: &greenVal)
+        }
+        
+        allowTX = false
+        if timerTXDelay == nil {
+            timerTXDelay = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.timerTXDelayElapsed), userInfo: nil, repeats: false)
+        }
+        allowTX = true;
+    }
+    
+    func sendBlue() {
+//        if !allowTX{
+//            return
+//        }
+//
+        print(blueVal)
+        if let bleService = btDiscoverySharedInstance.bleService {
+          
+            //bleService.writeBlueValue(b: &blueVal)
+        }
+        
+        allowTX = false
+        if timerTXDelay == nil {
+            timerTXDelay = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.timerTXDelayElapsed), userInfo: nil, repeats: false)
+        }
+        allowTX = true;
         
     }
         
@@ -196,7 +203,6 @@ class ViewController: UIViewController {
             self.allowTX = true
             self.stopTimerTXDelay()
             
-            // Send current slider position
           
         }
         

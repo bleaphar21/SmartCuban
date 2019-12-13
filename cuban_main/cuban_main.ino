@@ -35,6 +35,8 @@
 // Number of pixels that we have.
 int pixels = 24;
 
+byte busy = 0; 
+
 enum MODE {
   color_clock,
   manual,
@@ -47,10 +49,8 @@ MODE currentMode = real_time;
 #define ANSWERSIZE 2
 
 
-
-
 // inputs: number of pixels, pin number out, color ordering
-Adafruit_NeoPixel strip(pixels, 11, NEO_GRB); //  + NEO_KHZ800
+Adafruit_NeoPixel strip(pixels, 11, NEO_RGB); //  + NEO_KHZ800
 
 // color calc obj
 ColorCalculator calc = ColorCalculator();
@@ -72,7 +72,7 @@ void setup() {
   // INITING THE BOARD AS THE LISTENER
   Wire.begin(SLAVE_ADDR);
 
-  //Wire.onRequest(postData);
+  Wire.onRequest(postData);
 
   Wire.onReceive(pullData);
 
@@ -83,7 +83,7 @@ void setup() {
 
 // the loop function runs over and over again forever
 void loop() {
-  strip.show();
+  
 }
 
 /**
@@ -97,6 +97,7 @@ void setColorForPixel(int pixel, ColorVector c) {
 //  Serial.println(c.b);
   
   strip.setPixelColor(pixel, c.g, c.r, c.b);
+  strip.show();
 }
 
 /**
@@ -111,6 +112,7 @@ void setColorForPixel(int pixel, ColorVector c) {
  */
 void pullData(int howMany) {
   // pulling data while the connection is open
+  busy = 1;
   String arr[16];
   int i = 0;
   
@@ -121,22 +123,27 @@ void pullData(int howMany) {
      i++;
   }
 
-  for(int j = 0; j < 4; j++) {
-    Serial.println("value at index " + (String)j + ": " + arr[j]);
-  }
+//  for(int j = 0; j < 4; j++) {
+//    Serial.println("value at index " + (String)j + ": " + arr[j]);
+//  }
 
   
   int pixelNum = arr[0].toInt();
   int red = arr[1].toInt();
   int green = arr[2].toInt();
   int blue = arr[3].toInt();
-//  Serial.println("pixel: " + pixelNum);
-//  Serial.println("r:" + red);
-//  Serial.println("g:" + green);
-//  Serial.println("b:" + blue);
+  Serial.print("pixel: ");
+  Serial.println(pixelNum);
+  Serial.print("r:");
+  Serial.println(red);
+  Serial.print("g:");
+  Serial.println(green);
+  Serial.print("b:");
+  Serial.println(blue);
 
   // putting the color for the pixel
   setColorForPixel(pixelNum, ColorVector(red, green, blue, 0));
+  busy = 0;
 }
 
 /**
@@ -144,4 +151,6 @@ void pullData(int howMany) {
  * Maybe will create class that will pack all info into, and this function
  * will take in this claass and will send to app over bluetooth/wifi...
  */
-void postData(){}
+void postData() {
+  Wire.write(busy);
+}

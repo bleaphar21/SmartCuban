@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SmartControlV2/ViewController.swift"
-            timestampString = "597847473.862733"
+            timestampString = "597920801.444613"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
             landmarkName = "sendMode(_:)"
             landmarkType = "7">
          </BreakpointContent>
