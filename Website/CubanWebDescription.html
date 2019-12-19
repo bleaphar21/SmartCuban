@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="main.css">
     <link href="https://fonts.googleapis.com/css?family=Cookie%7CEB+Garamond%7CMarkazi+Text%7CRoboto:400,900%7CKarla:400,700%7COpen+Sans" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Varela&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -23,7 +24,7 @@
     <div class="body_section">
       <h1>Overview</h1>
       <div class="image_container">
-        <img src="inspo.jpg" width = '400px' height= '400px'
+        <img src="inspo.png" width = '400px' height= '400px'
         alt="whole"> </img>
         <p> Figure 1: Represents the entire necklace </p>
       </div>
@@ -58,8 +59,7 @@
 
     <div class="body_section">
       <h1>Hardware: </h1>
-      <h2>
-      Arduino</h2>
+      <h2>Arduino</h2>
       <p>
       The largest piece of hardware that will be introduced into our chain is
       the Arduino Nano 33 BLE Sense. <br>
@@ -72,6 +72,10 @@
       Because the device is bluetooth connected, this is the mode of
       communication that we would use to connect to the device via phone/app.
       <br>
+      Because the BLE was not able to supply 5v of power to our neopixel LEDs, we added a 
+      second arduino to our hardware. We have included a Arduino Uno that's sole purpose is 
+      to handle displaying and sending color information to our LEDs. The Arduino Uno recieves
+      information about what colors to display from the Arduino BLE. This board to board communication is handled through master-slave I2C communication.
       </p>
 
       <h2>Neopixel Jewels</h2>
@@ -95,13 +99,23 @@
       as well as responding with the status of the chain such as battery, weather,
       and current light colors. <br>
       The app will be crucial for connecting over bluetooth,
-       which is a main feature that must be implemented.<br>
-      The app will contain different screens for the user to interact with.<br>
-      Currently, the planned screens include a home screen, a chain status screen,
-      a color picker screen, and a mode select screen. <br>
-      Here is an example of what we
-      envision a screen on the app would look like:
+      which is a main feature that must be implemented.<br>
+      The app contains two screens for users to interact with.<br>
+      The first screen is a home screen that includes the current mode of the cuban link,
+      whether the cuban link is connected over bluetooth, the current RGB values on the 
+      cuban link, and the current temperature around the user. <br>
+      Here are examples of what our app looks like:
       </p>
+      <div class="image_container">
+        <img src="home_screen.jpeg" width = 50% height= 50%
+        alt="whole"> </img>
+        <p> Figure 2: Represents the home screen. </p>
+      </div>
+      <div class="image_container">
+        <img src="color_screen.jpeg" width = 50% height= 50%
+        alt="whole"> </img>
+        <p> Figure 3: Represents the home screen. </p>
+      </div>
     </div>
 
     <div class="body_section">
@@ -109,12 +123,12 @@
       <div class="image_container">
         <img src="smart_necklace.jpg" width = '400px' height= '400px'
         alt="whole"> </img>
-        <p> Figure 2: Represents the entire necklace </p>
+        <p> Figure 4: Represents the entire necklace </p>
       </div>
       <div class="image_container">
         <img src="Chain.jpg" width = '400px' height= '400px'
         alt="piece"> </img>
-        <p> Figure 3: Represents an individual piece of the chain </p>
+        <p> Figure 5: Represents an individual piece of the chain </p>
       </div>
     </div>
 
@@ -157,10 +171,27 @@
       <div class="image_container">
         <img src="proto.jpg" width = '400px' height= '400px'
         alt="proto"> </img>
+        <p> Figure 6: prototype of our cuban chain. </p>
       </div>
       <div class="image_container">
         <img src="proto2.jpg" width = '400px' height= '400px'
         alt="proto2"> </img>
+        <p> Figure 7: prototype of our cuban chain. </p>
+      </div>
+      <div class="image_container">
+        <img src="cuban_links_laser.png" width = '400px' height= '400px'
+        alt="proto2"> </img>
+        <p> Figure 8: cuban link laser cutting template. </p>
+      </div>
+      <div class="image_container">
+        <img src="ArduinoBox.png" width = '400px' height= '400px'
+        alt="proto2"> </img>
+        <p> Figure 9: Box that houses the arduinos template. </p>
+      </div>
+      <div class="image_container">
+        <img src="finished.jpg" width = '400px' height= '400px'
+        alt="proto2"> </img>
+        <p> Figure 10: final chain. </p>
       </div>
     </div>
 
