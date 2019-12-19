@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  SmartControl
 //
-//  Created by brantley leaphart on 12/1/19.
+//  Created by brantley leaphart and Alexander Stewart on 12/1/19.
 //  Copyright © 2019 Self. All rights reserved.
 //
 
@@ -30,6 +30,7 @@ class ViewController: UIViewController {
     var blueVal: Int = 0
     
     var greenVal: Int = 0
+    var lastTime: Date = Date();
     
     @IBAction func rtBttn(_ sender: UIButton) {
         modeVal.text = "Real Time"
@@ -38,7 +39,6 @@ class ViewController: UIViewController {
         self.sendTemp()
     }
 
-    
     
     @IBAction func ManualBttn(_ sender: UIButton) {
         modeVal.text = "Manual"
@@ -85,9 +85,6 @@ class ViewController: UIViewController {
     
     @IBAction func pushBttn(_ sender: Any) {
         self.sendRGB()
-//        self.sendRed()
-//        self.sendBlue()
-//        self.sendGreen()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -126,7 +123,6 @@ class ViewController: UIViewController {
                 if let isConnected: Bool = userInfo["isConnected"] {
                     if isConnected {
                         self.imgBluetoothStatus.image = UIImage(named: "Connect")
-                        //self.sendPosition()
                         // Send current slider position
                     } else {
                         self.imgBluetoothStatus.image = UIImage(named: "Disconnect")
@@ -134,16 +130,14 @@ class ViewController: UIViewController {
                 }
             });
         }
-        
+    
+        /*
+        * This function sends the mode over from the ios code
+        */
         func sendMode(_ position: String) {
             if !allowTX{
                 return
             }
-            
- 
-//            else if position == NULL{
-//                return
-//            }
             
             if let bleService = btDiscoverySharedInstance.bleService {
                 switch(position){
@@ -169,18 +163,12 @@ class ViewController: UIViewController {
             
         }
     
+    /*
+     * This function is where the code that pushes to the characteristics is called
+     */
     func sendRGB() {
-//        if !allowTX{
-//            return
-//        }
-//
-        print(redVal)
-        //            else if position == NULL{
-        //                return
-        //            }
         
         if let bleService = btDiscoverySharedInstance.bleService {
-          //  bleService.writeRgb(r: &redVal, g: &greenVal, b: &blueVal)
             bleService.writeRedValue(r: &redVal)
             bleService.writeGreenValue(g: &greenVal)
             bleService.writeBlueValue(b: &blueVal)
@@ -196,18 +184,8 @@ class ViewController: UIViewController {
     
     
     func sendGreen() {
-//        if !allowTX{
-//            return
-//        }
-//
-        print(greenVal)
-        //            else if position == NULL{
-        //                return
-        //            }
         
         if let bleService = btDiscoverySharedInstance.bleService {
-            
-            //bleService.writeGreenValue(g: &greenVal)
         }
         
         allowTX = false
@@ -218,14 +196,7 @@ class ViewController: UIViewController {
     }
     
     func sendBlue() {
-//        if !allowTX{
-//            return
-//        }
-//
-        print(blueVal)
         if let bleService = btDiscoverySharedInstance.bleService {
-          
-            //bleService.writeBlueValue(b: &blueVal)
         }
         
         allowTX = false
@@ -237,14 +208,9 @@ class ViewController: UIViewController {
     }
     
     func sendTemp() {
-        //        if !allowTX{
-        //            return
-        //        }
-        //
         print(self.temp)
         if let bleService = btDiscoverySharedInstance.bleService {
             bleService.writeTemp(t: &temp)
-            //bleService.writeBlueValue(b: &blueVal)
         }
         
         allowTX = false

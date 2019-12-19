@@ -14,6 +14,10 @@ let greenValueUUID = CBUUID(string: "3101")
 let blueValueUUID = CBUUID(string: "4101")
 let BLEServiceChangedStatusNotification = "kBLEServiceChangedStatusNotification"
 
+/*
+ * This class is responsible for the functionality of connecting to the bluetooth device and handling
+ * data exchange
+ */
 class BTService: NSObject, CBPeripheralDelegate {
     var peripheral: CBPeripheral?
     var modeChar: CBCharacteristic?
@@ -29,6 +33,7 @@ class BTService: NSObject, CBPeripheralDelegate {
         self.peripheral?.delegate = self
     }
     
+    //Losing connection
     deinit {
         self.reset()
     }
@@ -82,20 +87,17 @@ class BTService: NSObject, CBPeripheralDelegate {
             return
         }
         
+        //Responds to the appropriate matching characteristic
         if let characteristics = service.characteristics {
-            print("This is the number of the value of the list: " + String(characteristics.count))
             for characteristic in characteristics {
                 switch characteristic.uuid {
                 case modeCharUUID:
-//                    print("In the mode characteristic")
                     self.modeChar = (characteristic)
                     peripheral.setNotifyValue(true, for: characteristic)
-                   // writeMode(&mode: &<#T##Int#>)
                     // Send notification that Bluetooth is connected and all required characteristics are discovered
                     self.sendBTServiceNotificationWithIsBluetoothConnected(true)
                     
                 case temperatureCelsiusUUID:
-//                    print("In the temperature characteristic")
                     self.temperatureCelsius = (characteristic)
                     peripheral.setNotifyValue(true, for: characteristic)
                     
@@ -103,7 +105,6 @@ class BTService: NSObject, CBPeripheralDelegate {
                     self.sendBTServiceNotificationWithIsBluetoothConnected(true)
                     
                 case redValueUUID:
-//                    print("In the red characteristic")
                     self.redValue = (characteristic)
                     peripheral.setNotifyValue(true, for: characteristic)
                     
@@ -111,7 +112,6 @@ class BTService: NSObject, CBPeripheralDelegate {
                     self.sendBTServiceNotificationWithIsBluetoothConnected(true)
                 
                 case greenValueUUID:
-//                    print("In the green characteristic")
                     self.greenValue = (characteristic)
                     peripheral.setNotifyValue(true, for: characteristic)
                     
@@ -119,7 +119,6 @@ class BTService: NSObject, CBPeripheralDelegate {
                     self.sendBTServiceNotificationWithIsBluetoothConnected(true)
                     
                 case blueValueUUID:
-//                    print("In the blue characteristic")
                     self.blueValue = (characteristic)
                     peripheral.setNotifyValue(true, for: characteristic)
                     
@@ -133,9 +132,10 @@ class BTService: NSObject, CBPeripheralDelegate {
     }
     
     // Mark: - Private
-    
+    /*
+     * This function writes the rgb values to the r,g,b characteristics of the arduino
+     */
     func writeRgb(r: inout Int, g: inout Int, b: inout Int) {
-        print("In the red value")
         if let redVal = self.redValue {
             let data = Data(bytes: &r,
                             count: MemoryLayout.size(ofValue: r))
@@ -180,6 +180,9 @@ class BTService: NSObject, CBPeripheralDelegate {
         }
     }
     
+    /*
+     * This function writes the mode value to the mode characteristic of the arduino
+     */
     func writeMode(m: inout Int) {
         print("In the mode value")
         if let mode = self.modeChar {
@@ -189,6 +192,9 @@ class BTService: NSObject, CBPeripheralDelegate {
         }
     }
     
+    /*
+     * This function writes the temp value to temperature characteristic of the arduino
+     */
     func writeTemp(t: inout Int) {
         print("In the Temp value")
         if let currTemp = self.temperatureCelsius {
@@ -198,6 +204,7 @@ class BTService: NSObject, CBPeripheralDelegate {
         }
     }
     
+    //Notifies user if the device is connected 
     func sendBTServiceNotificationWithIsBluetoothConnected(_ isBluetoothConnected: Bool) {
         let connectionDetails = ["isConnected": isBluetoothConnected]
         NotificationCenter.default.post(name: Notification.Name(rawValue: BLEServiceChangedStatusNotification), object: self, userInfo: connectionDetails)

@@ -17,15 +17,6 @@
  *      - ArduinoBLE
  *      
  *      
- *      Shit that needs to get done:
- *        1. We need to have the three modes and figure out how to put them onto the LEDs
- *          - Color clock:
- *            How are we going to schedule the lights to individually light up based on the hour? Do we need the timing stuff from cuckoo?
- *            Send stuff timely from the app?
- *          - Manual Mode: Mode when the lights are controllable, and changes the colors by some RGB value
- *          - Real Time Weather Color: Changes the LED colors based on the weather read by the Arduino sensors.
- *        2. Function to handle turning celcius temp into a color.
- *      
  */
 #include "color_vector.h"
 #include "color_calculator.h"
@@ -33,10 +24,11 @@
 #include <Wire.h>
 
 // Number of pixels that we have.
-int pixels = 24;
+int pixels = 12;
 
 byte busy = 0; 
 
+//Simple enums to describe the type of functionality 
 enum MODE {
   color_clock,
   manual,
@@ -45,7 +37,7 @@ enum MODE {
 
 MODE currentMode = real_time;
 
-#define SLAVE_ADDR 9
+#define SLAVE_ADDR 9 //address of the arduino uno
 #define ANSWERSIZE 2
 
 
@@ -55,6 +47,7 @@ Adafruit_NeoPixel strip(pixels, 11, NEO_RGB); //  + NEO_KHZ800
 // color calc obj
 ColorCalculator calc = ColorCalculator();
 
+//Sets up the strip initially 
 void initStrip() {
   ColorVector c = ColorVector(0,0,0,0);
   for (int i = 0; i < pixels; i++) {
@@ -66,18 +59,18 @@ void initStrip() {
 void setup() {
   // initialize digital pin LED_BUILTIN as an output.
   Serial.begin(9600);
-//  Serial.println("this hoe working");
   pinMode(LED_BUILTIN, OUTPUT);
 
   // INITING THE BOARD AS THE LISTENER
   Wire.begin(SLAVE_ADDR);
 
+  //Giving information to the master board
   Wire.onRequest(postData);
 
+  //How to process information from the master board
   Wire.onReceive(pullData);
 
   strip.begin();
-  //initStrip();
   strip.show(); // Initialize all pixels to 'off'
 }
 
@@ -90,56 +83,31 @@ void loop() {
  * setColorforPixel will set the color for the specified pixel. 
  * This function might store the current color the pixel in some data structure.
  */
-void setColorForPixel(int pixel, ColorVector c) {
-//  Serial.println(pixel);
-//  Serial.println(c.r);
-//  Serial.println(c.g);
-//  Serial.println(c.b);
-  
+void setColorForPixel(int pixel, ColorVector c) {  
   strip.setPixelColor(pixel, c.g, c.r, c.b);
   strip.show();
 }
 
 /**
- * This function will pull data back from the App.
- * I don't know how this will work lol.
+ * This function will pull data back from the App through 
+ * the master board and interprets the information into bytes
+ * that can be used to color the necklace
  * 
- * Order that should be sent and read in:
- *  the led number being updated
- *  red value
- *  green value
- *  blue value
  */
 void pullData(int howMany) {
   // pulling data while the connection is open
   busy = 1;
   String arr[16];
   int i = 0;
-  
-  //Serial.println("Wire Availability: " + Wire.available());
   while(Wire.available()) {
-    Serial.println("receveji");
      arr[i] = (String)Wire.read();
      i++;
   }
 
-//  for(int j = 0; j < 4; j++) {
-//    Serial.println("value at index " + (String)j + ": " + arr[j]);
-//  }
-
-  
   int pixelNum = arr[0].toInt();
   int red = arr[1].toInt();
   int green = arr[2].toInt();
   int blue = arr[3].toInt();
-  Serial.print("pixel: ");
-  Serial.println(pixelNum);
-  Serial.print("r:");
-  Serial.println(red);
-  Serial.print("g:");
-  Serial.println(green);
-  Serial.print("b:");
-  Serial.println(blue);
 
   // putting the color for the pixel
   setColorForPixel(pixelNum, ColorVector(red, green, blue, 0));
@@ -147,9 +115,7 @@ void pullData(int howMany) {
 }
 
 /**
- * A function that will handle posting all relevant data needed for the IOS application.
- * Maybe will create class that will pack all info into, and this function
- * will take in this claass and will send to app over bluetooth/wifi...
+ * A functionhandles posting all relevant data needed for the IOS application back to the master
  */
 void postData() {
   Wire.write(busy);

@@ -1,6 +1,8 @@
 /**
-
-   add our explaination here..
+authors @Brantley Leaphart and Alexander Stewart 
+Purpose: This class is responsible for orchastrating the 
+board to board communication and sending information over to 
+the ios app 
 */
 #include "color_vector.h"
 #include "color_calculator.h"
@@ -11,11 +13,13 @@
 #include <Arduino_APDS9960.h>
 #include <Wire.h>
 
-#define SAMPLE_RATE 8000 //number of ticks in a second 
-volatile unsigned long timer_count = 0; //Value of the timer
+//Used for the clock functionality
+unsigned long startMillis = 0;
+unsigned long currentMillis = 0;
 
-int pixels = 24;
+int pixels = 12;
 
+//Simple enums representing the functionality modes 
 enum MODE {
   color_clock,
   manual,
@@ -51,51 +55,25 @@ BLEIntCharacteristic redValue("2101", BLERead | BLEWrite | BLENotify | BLEIndica
 BLEIntCharacteristic greenValue("3101", BLERead | BLEWrite | BLENotify | BLEIndicate);
 BLEIntCharacteristic blueValue("4101", BLERead | BLEWrite | BLENotify | BLEIndicate);
 
+//The arduino nano ble 33
 BLEDevice mainCentralDevice;
 
 
 #define SLAVE_ADDR 9
 #define ANSWERSIZE 2
 
-//// This function is the Interrupt Service Routine (ISR), which is called
-//// every time an interrupt occurs for
-//ISR(TIMER1_COMPA_vect) {
-//  timer_count++;
-//  //28800000 represents the time in ticks for an hour
-//  if ((timer_count % 28800000) == 0) {
-//    currentHour++;
-//    ColorVector newColor = calcColorBasedOnTemp(readTemp);
-//    pushColorForPixel(0, newColor);
-//  }
-//}
-
-//void init_timer(void) // Call this function from setup()
-//{
-//  noInterrupts(); // Disable all interrupts
-//  // Clear Timer1 register configuration
-//  TCCR1A = 0; TCCR1B = 0;
-//  // Configure Timer1 for CTC mode (WGM = 0b0100)
-//  bitSet(TCCR1B , WGM12);
-//  // Disable prescaler
-//  bitSet(TCCR1B , CS10);
-//
-//  // Set timer period, which is defined as the number of
-//  // CPU clock cycles (1/16MHz) between interrupts - 1
-//  OCR1A = (F_CPU / SAMPLE_RATE) - 1;
-//
-//  // Enable timer interrupts when timer count reaches value in OCR1A
-//  bitSet(TIMSK1 , OCIE1A);
-//
-//  interrupts(); // Enable interrupts
-//}
+void initStrip() {
+  ColorVector c = ColorVector(0,0,0,0);
+  for (int i = 0; i < pixels; i++) {
+    pushColorForPixel(i, c);
+    delay(100);
+  }
+}
 
 void setup()
 {
   Serial.begin(9600);
   while (!Serial);
-
-//  init_timer();
-//  fastpwm_init();
 
   // setting up ble services.
   if (!BLE.begin()) {
@@ -105,6 +83,8 @@ void setup()
   // making service available
   BLE.setLocalName("CubanLink");
   BLE.setAdvertisedService(cubanLinkService);
+
+  //Adding the characteristics that the nano should look for
   cubanLinkService.addCharacteristic(modeChar);
   cubanLinkService.addCharacteristic(temperatureCelsius);
   cubanLinkService.addCharacteristic(redValue);
@@ -117,16 +97,17 @@ void setup()
   Wire.begin(); // join i2c bus (address optional for master)
 }
 
+/*
+ * The main loop containing all of the executable code 
+ */
 void loop()
 {
-  //delay(1000);
   if (mainCentralDevice == NULL) {
     Serial.println("It's null");
     mainCentralDevice = BLE.central();
   }
 
   if (mainCentralDevice.connected()) { // a bluetooth is connected...
-    //Serial.println("A device is connected...");
     // read values from the characteristics
     byte rt = temperatureCelsius.value();
     readTemp = (int)rt;
@@ -147,22 +128,22 @@ void loop()
     byte y = greenValue.value();
     byte z = blueValue.value();
 
-    red = (int)v;
+  //Turning the bytes into ints that can be used 
+    red = (int)v; 
     green = (int)y;
     blue = (int)z;
+  }
 
-    //    Serial.print("readTemp: ");
-    //    Serial.println(readTemp);
-    //    Serial.print("currentMode: ");
-    //    Serial.println(currentMode);
-    //    Serial.print("red: ");
-    //    Serial.println(v);
-    //    Serial.print("green: ");
-    //    Serial.println(y);
-    //    Serial.print("blue: ");
-    //    Serial.println(z);
-    // might need one more characteristic that has the rgb values for manual mode...
-    // pass values to diff functions based on the mode.
+//Buffer functions 
+  if (currentMode != prevCurrentMode) {
+    if (currentMode == color_clock) {
+      startMillis = millis();
+      currentMillis = millis();
+      initStrip();
+      currentHour = 0;
+      ColorVector newColor = calcColorBasedOnTemp(readTemp);
+      pushColorForPixel(0, newColor);
+    }
   }
 
   if (currentMode != prevCurrentMode ||
@@ -170,18 +151,21 @@ void loop()
       red != prevRed ||
       green != prevGreen ||
       blue != prevBlue) {
-//    if (currentMode == color_clock) {
-//      timer_count = 0;
-//      currentHour = 0;
-//      ColorVector newColor = calcColorBasedOnTemp(readTemp);
-//      pushColorForPixel(0, newColor);
-//    }
+
     prevCurrentMode = currentMode;
     prevReadTemp = readTemp;
     prevRed = red;
     prevBlue = blue;
     prevGreen = green;
     operateMode();
+  }
+
+  currentMillis = millis();
+  if (currentMillis - startMillis >= 3600000) {
+    startMillis = millis();
+    currentHour++;
+    ColorVector newColor = calcColorBasedOnTemp(readTemp);
+    pushColorForPixel(currentHour, newColor);
   }
 
 }
@@ -191,21 +175,12 @@ void loop()
    This function might store the current color the pixel in some data structure.
 */
 void pushColorForPixel(int pixel, ColorVector c) {
-  //  Serial.println("Pixel: " + pixel);
-  //  Serial.println("Red: " + c.r);
-  //  Serial.println("Green: " + c.g);
-  //  Serial.println("Blue: " + c.b);
-  //  Serial.println("This is the current color vector: ");
-  Serial.println((String) c.r);
-  Serial.println((String) c.g);
-  Serial.println((String) c.b);
   Wire.beginTransmission(SLAVE_ADDR); // transmit to device #4
   Wire.write(pixel);        // sends five bytes
   Wire.write(c.r);          // sends one byte
   Wire.write(c.g);
   Wire.write(c.b);
   Wire.endTransmission();    // stop transmitting
-  //delay(1000);
 }
 
 ColorVector calcColorBasedOnTemp(float currentTemp) {
@@ -239,26 +214,20 @@ void setManualColor() {
   for (int i = 0; i < pixels; i++) {
     pushColorForPixel(i, c);
     delay(100);
-    //    while(Wire.requestFrom(SLAVE_ADDR, 1)){
-    //      Serial.println("we are waiting...");
-    //    }
-    //delay(5000);
   }
 }
 
 void operateMode() {
-  //Serial.println("operating");
   switch (currentMode) {
     case color_clock:
-      //Serial.println("cc");
-      // statements
+      Serial.println("cc");
       break;
     case manual:
       Serial.println("m");
       setManualColor();
       break;
     case real_time:
-      //Serial.println("r_t");
+      Serial.println("r_t");
       currentWeatherColor();
       break;
     default:
